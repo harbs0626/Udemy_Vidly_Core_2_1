@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Vidly.Models;
+using Vidly.Models.EntityFrameworks;
+using Vidly.Models.Interfaces;
 
 namespace Vidly
 {
@@ -16,8 +18,7 @@ namespace Vidly
     {
         public IConfiguration Configuration { get; }
 
-        public Startup(IConfiguration configuration) 
-            => Configuration = configuration;
+        public Startup(IConfiguration configuration) => Configuration = configuration;
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -25,6 +26,9 @@ namespace Vidly
                 options.UseSqlServer(Configuration["Data:VidlyCore:ConnectionString"]));
 
             services.AddMvc();
+
+            services.AddTransient<IMembershipTypeRepository, EFMembershipTypeRepository>();
+            services.AddTransient<IGenreRepository, EFGenreRepository>();
 
             //services.AddMemoryCache();
             //services.AddSession();
