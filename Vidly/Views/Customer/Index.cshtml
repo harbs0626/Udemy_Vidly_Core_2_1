@@ -1,5 +1,37 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model Details_ViewModel
+
+<h2>@ViewBag.Title</h2>
+
+@Html.ActionLink("Add New Customer", "Record", "Customer", 
+    null, new { @class = "btn btn-primary" })
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <td>Customer</td>
+            <td>Discount Rate</td>
+            <td>Action(s)</td>
+        </tr>
+    </thead>
+    <tbody>
+        @{ 
+            foreach(var c in Model.Customers)
+            {
+                <tr>
+                    <td>@Html.ActionLink(c.Name, "Edit", "Customer", 
+                            new { Id = c.Id })
+                    </td>
+                    <td>@c.MembershipType.Name</td>
+                    <td>
+                        @Html.ActionLink("Edit", "Record", "Customer",
+                            new { Id = c.Id },
+                            new { @class = "btn btn-outline-success" })
+                        @Html.ActionLink("Delete", "Delete", "Customer",
+                            new { Id = c.Id },
+                            new { @class = "btn btn-outline-danger" })
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table> 
