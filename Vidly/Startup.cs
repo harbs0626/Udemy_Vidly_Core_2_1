@@ -41,6 +41,8 @@ namespace Vidly
             app.UseStatusCodePages();
             app.UseMvcWithDefaultRoute();
 
+            SeedData.EnsurePopulated(app);
+
         }
     }
 }
