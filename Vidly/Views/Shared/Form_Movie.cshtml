@@ -1,5 +1,51 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@model Form_Movie_ViewModel
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("Save", "Movies"))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.Movie.Name, "Movie Name")
+        @Html.TextBoxFor(m => m.Movie.Name,
+            new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Movie.Name)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Movie.ReleaseDate, "Release Date")
+        @Html.TextBoxFor(m => m.Movie.ReleaseDate, "{0:dd MMMM yyyy}",
+            new {
+                @class = "form-control",
+                @type = "date",
+                @placeholder = "1 Jan 0001" })
+        @Html.ValidationMessageFor(m => m.Movie.ReleaseDate)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Movie.Genre.Id, "Genre")
+        @Html.DropDownListFor(m => m.Movie.Genre.Id,
+            new SelectList(Model.Genres, "Id", "Name"),
+            "Select Genre",
+            new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Movie.Genre.Id)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Movie.NumberInStock, "Number in Stock")
+        @Html.TextBoxFor(m => m.Movie.NumberInStock,
+            new {
+                @class = "form-control",
+                @placeholder = "0" })
+        @Html.ValidationMessageFor(m => m.Movie.NumberInStock)
+    </div>
+
+    <input type="hidden" asp-for="@Model.Movie.Id"
+           value="@(Model.Movie == null ? 0 : Model.Movie.Id)" />
+
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-primary">
+        Save
+    </button>
+}
+
+@section Scripts {
+    <script src="~/lib/jquery/jquery.validate.js"></script>
+    <script src="~/lib/jquery/jquery.validate.unobtrusive.js"></script>
 }
