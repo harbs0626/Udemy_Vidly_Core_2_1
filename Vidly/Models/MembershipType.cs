@@ -13,11 +13,11 @@ namespace Vidly.Models
 
         public string Name { get; set; }
 
-        public decimal SignUpFee { get; set; }
+        public double SignUpFee { get; set; }
 
         public int DurationInMonths { get; set; }
 
-        public decimal DiscountRate { get; set; }
+        public double DiscountRate { get; set; }
 
     }
 }
