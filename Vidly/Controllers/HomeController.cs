@@ -8,8 +8,23 @@ namespace Vidly.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        public ActionResult Index()
         {
+            ViewBag.Title = "Vidly";
+            return View();
+        }
+
+        public ActionResult About()
+        {
+            ViewBag.Title = "About Me";
+            ViewBag.Message = "Your application description page.";
+            return View();
+        }
+
+        public ActionResult Contact()
+        {
+            ViewBag.Title = "Contact Me";
+            ViewBag.Message = "Yout contact page.";
             return View();
         }
     }
