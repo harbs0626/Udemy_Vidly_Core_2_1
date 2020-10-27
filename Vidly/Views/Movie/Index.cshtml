@@ -2,36 +2,48 @@
 
 <h2>@ViewBag.Title</h2>
 
-@Html.ActionLink("Add New Movie", "Record", "Movie",
-    null, new { @class = "btn btn-primary" })
+<div class="form-group">
+    @Html.ActionLink("Add New Movie", "Record", "Movie",
+        null, new { @class = "btn btn-primary" })
+</div>
 
-<table class="table table-bordered table-hover">
-    <thead>
-        <tr>
-            <td>Movie</td>
-            <td>Genre</td>
-            <td>Action(s)</td>
-        </tr>
-    </thead>
-    <tbody>
-        @{
-            foreach (var m in Model.Movies)
-            {
-                <tr>
-                    <td>@Html.ActionLink(m.Name, "Edit", "Movie",
+@if (Model.Movies.ToList().Count == 0)
+{
+    <div class="alert alert-warning text-muted text-center">
+        <b>Note:&nbsp;</b>We don't have any movie(s) yet.
+    </div>
+}
+else
+{
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <td>Movie</td>
+                <td>Genre</td>
+                <td>Action(s)</td>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (var m in Model.Movies)
+                {
+                    <tr>
+                        <td>
+                            @Html.ActionLink(m.Name, "Edit", "Movie",
                             new { Id = m.Id })
-                    </td>
-                    <td>@m.Genre.Name</td>
-                    <td>
-                        @Html.ActionLink("Edit", "Record", "Movie",
-                            new { Id = m.Id },
-                            new { @class = "btn btn-outline-success" })
-                        @Html.ActionLink("Delete", "Delete", "Movie",
-                            new { Id = m.Id },
-                            new { @class = "btn btn-outline-danger" })
-                    </td>
-                </tr>
+                        </td>
+                        <td>@m.Genre.Name</td>
+                        <td>
+                            @Html.ActionLink("Edit", "Record", "Movie",
+                                new { Id = m.Id },
+                                new { @class = "btn btn-outline-success" })
+                            @Html.ActionLink("Delete", "Delete", "Movie",
+                                new { Id = m.Id },
+                                new { @class = "btn btn-outline-danger" })
+                        </td>
+                    </tr>
+                }
             }
-        }
-    </tbody>
-</table>
+        </tbody>
+    </table>
+}
