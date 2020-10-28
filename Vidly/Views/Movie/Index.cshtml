@@ -1,6 +1,7 @@
 ﻿@model Details_ViewModel
 
 <h2>@ViewBag.Title</h2>
+<hr />
 
 <div class="form-group">
     @Html.ActionLink("Add New Movie", "Record", "Movie",
@@ -34,7 +35,10 @@ else
                         </td>
                         <td>@m.Genre.Name</td>
                         <td>
-                            @Html.ActionLink("Edit", "Record", "Movie",
+                            @Html.ActionLink("View", "Details", "Movie",
+                                new { Id = m.Id },
+                                new { @class = "btn btn-outline-primary" })
+                            @Html.ActionLink("Edit", "Edit", "Movie",
                                 new { Id = m.Id },
                                 new { @class = "btn btn-outline-success" })
                             @Html.ActionLink("Delete", "Delete", "Movie",
