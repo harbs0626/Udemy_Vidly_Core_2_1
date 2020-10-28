@@ -5,6 +5,6 @@
 @{ 
     foreach(var c in Model.Customers)
     {
-        <div class="text-muted">Name:&nbsp;@c.Name</div>
+        <div class="text-muted"><b>Membership Type:</b>&nbsp;@c.MembershipType.Name</div>
     }
 }

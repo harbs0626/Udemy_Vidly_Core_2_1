@@ -35,7 +35,10 @@ else
                         </td>
                         <td>@c.MembershipType.Name</td>
                         <td>
-                            @Html.ActionLink("Edit", "Record", "Customer",
+                            @Html.ActionLink("View", "Details", "Customer",
+                                new { Id = c.Id },
+                                new { @class = "btn btn-outline-primary" })
+                            @Html.ActionLink("Edit", "Edit", "Customer",
                                 new { Id = c.Id },
                                 new { @class = "btn btn-outline-success" })
                             @Html.ActionLink("Delete", "Delete", "Customer",
