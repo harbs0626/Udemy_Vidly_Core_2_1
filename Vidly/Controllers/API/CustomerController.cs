@@ -24,8 +24,7 @@ namespace Vidly.Controllers.API
         [HttpGet]
         public IEnumerable<Customer> GetCustomers()
         {
-            return this._context.Customers
-                .OrderBy(c => c.Id);
+            return this._context.Customers.OrderBy(c => c.Id);
         }
 
         // GET: API/<controller>/<id>
@@ -58,34 +57,46 @@ namespace Vidly.Controllers.API
 
         // PUT: API/<controller>/<id>
         [HttpPut("{Id}")]
-        public void UpdateCustomer(int Id, Customer _customer)
+        public IActionResult UpdateCustomer(int Id, Customer _customer)
         {
             var _customerInDb = this._context.Customers
                 .SingleOrDefault(c => c.Id == Id);
 
-            if (_customerInDb != null)
+            if (_customerInDb == null)
+            {
+                return NotFound("Customer does not exist!");
+            }
+            else
             {
                 _customerInDb.Name = _customer.Name;
                 _customerInDb.BirthDate = _customer.BirthDate;
                 _customerInDb.MembershipTypeId = _customer.MembershipTypeId;
                 _customerInDb.IsSubscribedToNewsLetter = _customer.IsSubscribedToNewsLetter;
+
+                this._context.SaveChanges();
             }
 
-            this._context.SaveChanges();
+            return Ok("Successfully updated Customer.");
         }
 
         // DELETE: API/<controller>/<id>
         [HttpDelete("{Id}")]
-        public void DeleteCustomer(int Id)
+        public IActionResult DeleteCustomer(int Id)
         {
             var _customerInDb = this._context.Customers
                 .SingleOrDefault(c => c.Id == Id);
 
-            if (_customerInDb != null)
+            if (_customerInDb == null)
+            {
+                return NotFound("Customer does not exist!");
+            }
+            else
             {
                 this._context.Customers.Remove(_customerInDb);
                 this._context.SaveChanges();
             }
+
+            return Ok("Successfully deleted Customer.");
         }
 
     }
