@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Vidly.DTOs;
 using Vidly.Models;
 
 namespace Vidly.Controllers.API
@@ -22,9 +24,11 @@ namespace Vidly.Controllers.API
 
         // GET: API/<controller>
         [HttpGet]
-        public IEnumerable<Customer> GetCustomers()
+        public IEnumerable<CustomerDto> GetCustomers()
         {
-            return this._context.Customers.OrderBy(c => c.Id);
+            return this._context.Customers.ToList()
+                .Select(Mapper.Map<Customer, CustomerDto>)
+                .OrderBy(c => c.Id);
         }
 
         // GET: API/<controller>/<id>
@@ -39,17 +43,20 @@ namespace Vidly.Controllers.API
                 return NotFound("Customer does not exist!");
             }
 
-            return Ok(_customer);
+            return Ok(Mapper.Map<Customer, CustomerDto>(_customer));
         }
 
         // POST: API/<controller>
         [HttpPost]
-        public IActionResult CreateCustomer(Customer _customer)
+        public IActionResult CreateCustomer(CustomerDto _customerDto)
         {
             if (ModelState.IsValid)
             {
+                var _customer = Mapper.Map<CustomerDto, Customer>(_customerDto);
                 this._context.Customers.Add(_customer);
                 this._context.SaveChanges();
+
+                _customerDto.Id = _customer.Id;
             }
 
             return Ok("Successfully added Customer.");
@@ -57,7 +64,7 @@ namespace Vidly.Controllers.API
 
         // PUT: API/<controller>/<id>
         [HttpPut("{Id}")]
-        public IActionResult UpdateCustomer(int Id, Customer _customer)
+        public IActionResult UpdateCustomer(int Id, CustomerDto _customerDto)
         {
             var _customerInDb = this._context.Customers
                 .SingleOrDefault(c => c.Id == Id);
@@ -68,6 +75,11 @@ namespace Vidly.Controllers.API
             }
             else
             {
+                //Mapper.Map(_customerInDb, _customerDto);
+                //Mapper.Map(_customerDto, _customerInDb);
+
+                var _customer = Mapper.Map<CustomerDto, Customer>(_customerDto);
+
                 _customerInDb.Name = _customer.Name;
                 _customerInDb.BirthDate = _customer.BirthDate;
                 _customerInDb.MembershipTypeId = _customer.MembershipTypeId;

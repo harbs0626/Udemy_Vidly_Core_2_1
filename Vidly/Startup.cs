@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Vidly.Models;
 using Vidly.Models.EntityFrameworks;
 using Vidly.Models.Interfaces;
+using Vidly.App_Start;
 
 namespace Vidly
 {
@@ -47,6 +48,7 @@ namespace Vidly
 
             SeedData.EnsurePopulated(app);
 
+            AutoMapper.Mapper.Initialize(c => c.AddProfile<MappingProfile>());
         }
     }
 }
