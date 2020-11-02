@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Vidly.DTOs;
 using Vidly.Models;
 
 namespace Vidly.Controllers.API
@@ -21,9 +23,11 @@ namespace Vidly.Controllers.API
 
         // GET: API/<controller>
         [HttpGet]
-        public IEnumerable<Movie> GetMovies()
+        public IEnumerable<MovieDto> GetMovies()
         {
-            return this._context.Movies.OrderBy(m => m.Id);
+            return this._context.Movies.ToList()
+                .Select(Mapper.Map<Movie, MovieDto>)
+                .OrderBy(m => m.Id);
         }
 
         // GET: API/<controller>/<id>
@@ -38,24 +42,28 @@ namespace Vidly.Controllers.API
                 return NotFound("Movie does not exist!");
             }
 
-            return Ok(_movie);
+            return Ok(Mapper.Map<Movie, MovieDto>(_movie));
         }
 
         // POST: API/<controller>
         [HttpPost]
-        public IActionResult CreateMovie(Movie _movie)
+        public IActionResult CreateMovie(MovieDto _movieDto)
         {
             if (ModelState.IsValid)
             {
+                var _movie = Mapper.Map<MovieDto, Movie>(_movieDto);
                 this._context.Movies.Add(_movie);
                 this._context.SaveChanges();
+
+                _movieDto.Id = _movie.Id;
             }
 
             return Ok("Successfully added Movie.");
         }
 
         // PUT: API/<controller>/<id>
-        public IActionResult UpdateMovie(int Id, Movie _movie)
+        [HttpPut("{Id}")]
+        public IActionResult UpdateMovie(int Id, MovieDto _movieDto)
         {
             var _movieInDb = this._context.Movies
                 .SingleOrDefault(m => m.Id == Id);
@@ -66,6 +74,8 @@ namespace Vidly.Controllers.API
             }
             else
             {
+                var _movie = Mapper.Map<MovieDto,Movie>(_movieDto);
+
                 _movieInDb.Name = _movie.Name;
                 _movieInDb.ReleaseDate = _movie.ReleaseDate;
                 _movieInDb.GenreId = _movie.GenreId;
@@ -78,6 +88,7 @@ namespace Vidly.Controllers.API
         }
         
         // DELETE: API/<controller>/<id>
+        [HttpDelete("{Id}")]
         public IActionResult DeleteMovie(int Id)
         {
             var _movieInDb = this._context.Movies
@@ -95,5 +106,6 @@ namespace Vidly.Controllers.API
 
             return Ok("Successfully deleted Movie.");
         }
+
     }
 }

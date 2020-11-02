@@ -93,7 +93,7 @@ namespace Vidly.Controllers
             this._details = new Details_ViewModel();
             this._details.Movies = this._context.Movies
                 .Include(m => m.Genre)
-                .OrderBy(m => m.Id);
+                .Where(m => m.Id == Id);
 
             foreach(var getMovieName in this._details.Movies)
             {
