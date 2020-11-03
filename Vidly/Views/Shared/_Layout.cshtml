@@ -7,8 +7,10 @@
 
     <title>@ViewBag.Title - My ASP.NET Application</title>
 
-    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.css" />
     <link rel="stylesheet" href="~/lib/fontawesome/css/all.min.css" />
+    <link rel="stylesheet" href="~/lib/datatables/css/dataTables.bootstrap4.min.css" />
+
 </head>
 <body style="font-family:Calibri">
     <div class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
@@ -49,8 +51,11 @@
         </footer>
     </div>
 
-    <script src="~/lib/jquery/jquery.slim.min.js"></script>
-    <script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/lib/jquery/jquery.js"></script>
+    <script src="~/lib/bootstrap/js/bootstrap.js"></script>
+    <script src="~/lib/bootbox/bootbox.js"></script>
+    <script src="~/lib/datatables/js/jquery.dataTables.js"></script>
+    <script src="~/lib/datatables/js/dataTables.bootstrap4.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

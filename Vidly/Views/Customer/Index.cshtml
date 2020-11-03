@@ -16,12 +16,12 @@
 }
 else
 {
-    <table class="table table-bordered table-hover">
+    <table id="customers" class="table table-bordered table-hover">
         <thead>
             <tr>
-                <td>Customer</td>
-                <td>Discount Rate</td>
-                <td>Action(s)</td>
+                <th>Customer</th>
+                <th>Discount Rate</th>
+                <th>Action(s)</th>
             </tr>
         </thead>
         <tbody>
@@ -41,13 +41,44 @@ else
                             @Html.ActionLink("Edit", "Edit", "Customer",
                                 new { Id = c.Id },
                                 new { @class = "btn btn-outline-success" })
-                            @Html.ActionLink("Delete", "Delete", "Customer",
+                            @*@Html.ActionLink("Delete", "Delete", "Customer",
                                 new { Id = c.Id },
-                                new { @class = "btn btn-outline-danger" })
+                                new { @class = "btn btn-outline-danger", @style = "visibility:hidden" })*@
+                            <button class="btn btn-outline-danger js-delete"
+                                data-customer-id="@c.Id">
+                                Delete
+                            </button>
                         </td>
                     </tr>
                 }
             }
         </tbody>
     </table>
+}
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+
+            $("#customers").DataTable();
+
+            $("#customers").on("click", ".js-delete", function () {
+                var button = $(this);
+
+                bootbox.confirm("Are you sure to delete this customer?", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/API/customer/" + button.attr("data-customer-id"),
+                            method: "DELETE",
+                            success: function () {
+                                button.parents("tr").remove();
+                            }
+                        });
+                    }
+                });
+            });
+
+        });
+    </script>
 }
