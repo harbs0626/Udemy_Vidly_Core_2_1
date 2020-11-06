@@ -19,5 +19,11 @@ namespace Vidly.Models
 
         public double DiscountRate { get; set; }
 
+        public static readonly int? Unknown = null;
+        public static readonly int PayAsYouGo = 1;
+        public static readonly int Monthly = 2;
+        public static readonly int Quarterly = 3;
+        public static readonly int Annual = 4;
+
     }
 }

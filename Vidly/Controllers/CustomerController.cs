@@ -28,12 +28,13 @@ namespace Vidly.Controllers
         {
             ViewBag.Title = "Customers";
 
-            this._details = new Details_ViewModel();
-            this._details.Customers = this._context.Customers
-                .Include(c => c.MembershipType)
-                .OrderBy(c => c.Id);
+            //this._details = new Details_ViewModel();
+            //this._details.Customers = this._context.Customers
+            //    .Include(c => c.MembershipType)
+            //    .OrderBy(c => c.Id);
+            //return View(this._details);
 
-            return View(this._details);
+            return View();
         }
 
         public object NewRecord()

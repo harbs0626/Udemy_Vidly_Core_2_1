@@ -8,14 +8,14 @@
         null, new { @class = "btn btn-primary" })
 </div>
 
-@if (Model.Customers.ToList().Count == 0)
+@*@if (Model.Customers.ToList().Count == 0)
 {
     <div class="alert alert-warning text-muted text-center">
         <b>Note:&nbsp;</b>We don't have any customer(s) yet.
     </div>
 }
 else
-{
+{*@
     <table id="customers" class="table table-bordered table-hover">
         <thead>
             <tr>
@@ -25,7 +25,7 @@ else
             </tr>
         </thead>
         <tbody>
-            @{
+            @*@{
                 foreach (var c in Model.Customers)
                 {
                     <tr>
@@ -41,9 +41,6 @@ else
                             @Html.ActionLink("Edit", "Edit", "Customer",
                                 new { Id = c.Id },
                                 new { @class = "btn btn-outline-success" })
-                            @*@Html.ActionLink("Delete", "Delete", "Customer",
-                                new { Id = c.Id },
-                                new { @class = "btn btn-outline-danger", @style = "visibility:hidden" })*@
                             <button class="btn btn-outline-danger js-delete"
                                 data-customer-id="@c.Id">
                                 Delete
@@ -51,17 +48,38 @@ else
                         </td>
                     </tr>
                 }
-            }
+            }*@
         </tbody>
     </table>
-}
+@*}*@
 
 @section Scripts
 {
     <script>
         $(document).ready(function () {
-
-            $("#customers").DataTable();
+            $("#customers").DataTable({
+                ajax: {
+                    url: "/API/Customer",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "name",
+                        render: function (data, type, customer) {
+                            return "<a href='/Customer/Edit/" + customer.id + "'>" + customer.name + "</a>";
+                        }
+                    },
+                    {
+                        data: "membershipType.name"
+                    },
+                    {
+                        data: "id",
+                        render: function (data) {
+                            return "<a class='btn btn-outline-primary' href='/Customer/Details/" + data + "'>View</a>&nbsp;<a class='btn btn-outline-success' href='/Customer/Edit/" + data + "'>Edit</a>&nbsp;<button class='btn btn-outline-danger js-delete' data-customer-id=" + data + ">Delete</button>";
+                        }
+                    }
+                ]
+            });
 
             $("#customers").on("click", ".js-delete", function () {
                 var button = $(this);

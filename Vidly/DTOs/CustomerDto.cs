@@ -21,5 +21,12 @@ namespace Vidly.DTOs
 
         public int? MembershipTypeId { get; set; }
 
+        public MembershipTypeDto MembershipType { get; set; }
+        
+        // Harbs - 2020-11-06
+        // Upon observation, if "MembershipTypeDto" as a variable name
+        // it returns null. But if I use "MembershipType", it returns the
+        // expected values.
+
     }
 }
