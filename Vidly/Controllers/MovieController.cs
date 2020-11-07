@@ -28,12 +28,13 @@ namespace Vidly.Controllers
         {
             ViewBag.Title = "Movies";
 
-            this._details = new Details_ViewModel();
-            this._details.Movies = this._context.Movies
-                .Include(m => m.Genre)
-                .OrderBy(m => m.Id);
+            //this._details = new Details_ViewModel();
+            //this._details.Movies = this._context.Movies
+            //    .Include(m => m.Genre)
+            //    .OrderBy(m => m.Id);
+            //return View(this._details);
 
-            return View(this._details);
+            return View();
         }
 
         public object NewRecord()

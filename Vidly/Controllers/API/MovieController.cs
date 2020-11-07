@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Vidly.DTOs;
 using Vidly.Models;
 
@@ -23,11 +24,15 @@ namespace Vidly.Controllers.API
 
         // GET: API/<controller>
         [HttpGet]
-        public IEnumerable<MovieDto> GetMovies()
+        public IActionResult GetMovies()
         {
-            return this._context.Movies.ToList()
+            var _movieDto = this._context.Movies
+                .Include(m => m.Genre)
+                .ToList()
                 .Select(Mapper.Map<Movie, MovieDto>)
                 .OrderBy(m => m.Id);
+
+            return Ok(_movieDto);
         }
 
         // GET: API/<controller>/<id>
@@ -35,6 +40,7 @@ namespace Vidly.Controllers.API
         public IActionResult GetMovie(int Id)
         {
             var _movie = this._context.Movies
+                .Include(m => m.Genre)
                 .SingleOrDefault(m => m.Id == Id);
 
             if (_movie == null)

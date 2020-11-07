@@ -66,7 +66,8 @@ else
                     {
                         data: "name",
                         render: function (data, type, customer) {
-                            return "<a href='/Customer/Edit/" + customer.id + "'>" + customer.name + "</a>";
+                            var control_1 = "<a href='/Customer/Edit/" + customer.id + "'>" + customer.name + "</a>";
+                            return control_1;
                         }
                     },
                     {
@@ -75,7 +76,11 @@ else
                     {
                         data: "id",
                         render: function (data) {
-                            return "<a class='btn btn-outline-primary' href='/Customer/Details/" + data + "'>View</a>&nbsp;<a class='btn btn-outline-success' href='/Customer/Edit/" + data + "'>Edit</a>&nbsp;<button class='btn btn-outline-danger js-delete' data-customer-id=" + data + ">Delete</button>";
+                            var control_1 = "<a class='btn btn-outline-primary' href='/Customer/Details/" + data + "'>View</a>&nbsp";
+                            var control_2 = "<a class='btn btn-outline-success' href='/Customer/Edit/" + data + "'>Edit</a>&nbsp";
+                            var control_3 = "<button class='btn btn-outline-danger js-delete' data-customer-id=" + data + ">Delete</button>";
+                            var all_controls = control_1 + control_2 + control_3;
+                            return all_controls;
                         }
                     }
                 ]
@@ -87,7 +92,7 @@ else
                 bootbox.confirm("Are you sure to delete this customer?", function (result) {
                     if (result) {
                         $.ajax({
-                            url: "/API/customer/" + button.attr("data-customer-id"),
+                            url: "/API/Customer/" + button.attr("data-customer-id"),
                             method: "DELETE",
                             success: function () {
                                 button.parents("tr").remove();

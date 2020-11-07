@@ -8,24 +8,24 @@
         null, new { @class = "btn btn-primary" })
 </div>
 
-@if (Model.Movies.ToList().Count == 0)
+@*@if (Model.Movies.ToList().Count == 0)
 {
     <div class="alert alert-warning text-muted text-center">
         <b>Note:&nbsp;</b>We don't have any movie(s) yet.
     </div>
 }
 else
-{
-    <table class="table table-bordered table-hover">
+{*@
+    <table id="movies" class="table table-bordered table-hover">
         <thead>
             <tr>
-                <td>Movie</td>
-                <td>Genre</td>
-                <td>Action(s)</td>
+                <th>Movie</th>
+                <th>Genre</th>
+                <th>Action(s)</th>
             </tr>
         </thead>
         <tbody>
-            @{
+            @*@{
                 foreach (var m in Model.Movies)
                 {
                     <tr>
@@ -47,7 +47,59 @@ else
                         </td>
                     </tr>
                 }
-            }
+            }*@
         </tbody>
     </table>
+@*}*@
+
+@section Scripts 
+{ 
+    <script>
+        $(document).ready(function () {
+            $("#movies").DataTable({
+                ajax: {
+                    url: "API/Movie",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "name",
+                        render: function (data, type, movie) {
+                            var control_1 = "<a href='/Movie/Edit/" + movie.id + "'>" + movie.name + "</a>";
+                            return control_1;
+                        }
+                    },
+                    {
+                        data: "genre.name"
+                    },
+                    {
+                        data: "id",
+                        render: function (data) {
+                            var control_1 = "<a class='btn btn-outline-primary' href='/Movie/Details/" + data + "'>View</a>&nbsp";
+                            var control_2 = "<a class='btn btn-outline-success' href='/Movie/Edit/" + data + "'>Edit</a>&nbsp;";
+                            var control_3 = "<button class='btn btn-outline-danger js-delete' data-movie-id=" + data + ">Delete</button>";
+                            var all_controls = control_1 + control_2 + control_3;
+                            return all_controls;
+                        }
+                    }
+                ]
+            });
+
+            $("#movies").on("click", ".js-delete", function () {
+                var button = $(this);
+
+                bootbox.confirm("Are you sure to delete this movie?", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/API/Movie/" + button.attr("data-movie-id"),
+                            method: "DELETE",
+                            success: function () {
+                                button.parents("tr").remove();
+                            }
+                        });
+                    }
+                })
+            });
+        });
+    </script>
 }
