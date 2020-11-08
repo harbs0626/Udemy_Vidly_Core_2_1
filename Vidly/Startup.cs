@@ -12,6 +12,7 @@ using Vidly.Models;
 using Vidly.Models.EntityFrameworks;
 using Vidly.Models.Interfaces;
 using Vidly.App_Start;
+using Microsoft.AspNetCore.Identity;
 
 namespace Vidly
 {
@@ -25,6 +26,12 @@ namespace Vidly
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration["Data:VidlyCore:ConnectionString"]));
+            services.AddDbContext<AppIdentityDbContext>(options =>
+                options.UseSqlServer(Configuration["Data:VidlyCore_Identity:ConnectionString"]));
+
+            services.AddIdentity<AppUser, IdentityRole>()
+                .AddEntityFrameworkStores<AppIdentityDbContext>()
+                .AddDefaultTokenProviders();
 
             services.AddMvc();
 
@@ -47,6 +54,7 @@ namespace Vidly
             app.UseMvcWithDefaultRoute();
 
             SeedData.EnsurePopulated(app);
+            SeedData_Identity.EnsurePopulated(app);
 
             AutoMapper.Mapper.Initialize(c => c.AddProfile<MappingProfile>());
         }

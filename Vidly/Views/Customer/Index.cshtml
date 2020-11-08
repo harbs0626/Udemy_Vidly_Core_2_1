@@ -1,6 +1,6 @@
 ﻿@model Details_ViewModel
 
-<h2>@ViewBag.Title</h2>
+<h2>List of Customers</h2>
 <hr />
 
 <div class="form-group">
@@ -96,6 +96,7 @@ else
                             method: "DELETE",
                             success: function () {
                                 button.parents("tr").remove();
+                                //table.row(button.parents("tr")).remove().draw();
                             }
                         });
                     }

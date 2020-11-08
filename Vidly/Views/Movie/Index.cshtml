@@ -1,6 +1,6 @@
 ﻿@model Details_ViewModel
 
-<h2>@ViewBag.Title</h2>
+<h2>List of Movies</h2>
 <hr />
 
 <div class="form-group">
@@ -56,34 +56,34 @@ else
 { 
     <script>
         $(document).ready(function () {
-            $("#movies").DataTable({
-                ajax: {
-                    url: "API/Movie",
-                    dataSrc: ""
-                },
-                columns: [
-                    {
-                        data: "name",
-                        render: function (data, type, movie) {
-                            var control_1 = "<a href='/Movie/Edit/" + movie.id + "'>" + movie.name + "</a>";
-                            return control_1;
-                        }
+            var table = $("#movies").DataTable({
+                    ajax: {
+                        url: "API/Movie",
+                        dataSrc: ""
                     },
-                    {
-                        data: "genre.name"
-                    },
-                    {
-                        data: "id",
-                        render: function (data) {
-                            var control_1 = "<a class='btn btn-outline-primary' href='/Movie/Details/" + data + "'>View</a>&nbsp";
-                            var control_2 = "<a class='btn btn-outline-success' href='/Movie/Edit/" + data + "'>Edit</a>&nbsp;";
-                            var control_3 = "<button class='btn btn-outline-danger js-delete' data-movie-id=" + data + ">Delete</button>";
-                            var all_controls = control_1 + control_2 + control_3;
-                            return all_controls;
+                    columns: [
+                        {
+                            data: "name",
+                            render: function (data, type, movie) {
+                                var control_1 = "<a href='/Movie/Edit/" + movie.id + "'>" + movie.name + "</a>";
+                                return control_1;
+                            }
+                        },
+                        {
+                            data: "genre.name"
+                        },
+                        {
+                            data: "id",
+                            render: function (data) {
+                                var control_1 = "<a class='btn btn-outline-primary' href='/Movie/Details/" + data + "'>View</a>&nbsp";
+                                var control_2 = "<a class='btn btn-outline-success' href='/Movie/Edit/" + data + "'>Edit</a>&nbsp;";
+                                var control_3 = "<button class='btn btn-outline-danger js-delete' data-movie-id=" + data + ">Delete</button>";
+                                var all_controls = control_1 + control_2 + control_3;
+                                return all_controls;
+                            }
                         }
-                    }
-                ]
-            });
+                    ]
+                });
 
             $("#movies").on("click", ".js-delete", function () {
                 var button = $(this);
@@ -95,6 +95,7 @@ else
                             method: "DELETE",
                             success: function () {
                                 button.parents("tr").remove();
+                                //table.row(button.parents("tr")).remove().draw();
                             }
                         });
                     }
