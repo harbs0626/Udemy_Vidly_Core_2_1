@@ -38,8 +38,8 @@ namespace Vidly
             services.AddTransient<IMembershipTypeRepository, EFMembershipTypeRepository>();
             services.AddTransient<IGenreRepository, EFGenreRepository>();
 
-            //services.AddMemoryCache();
-            //services.AddSession();
+            services.AddMemoryCache();
+            services.AddSession();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -51,6 +51,9 @@ namespace Vidly
 
             app.UseStaticFiles();
             app.UseStatusCodePages();
+            app.UseAuthentication();
+            app.UseSession();
+
             app.UseMvcWithDefaultRoute();
 
             SeedData.EnsurePopulated(app);

@@ -1,0 +1,61 @@
+﻿@model Form_User_ViewModel
+
+<h2>@ViewBag.Title</h2>
+<hr />
+
+@using (Html.BeginForm("Register", "Register"))
+{
+    <div class="form-group">
+        @Html.LabelFor(u => u.AppUser.FirstName, "First Name")
+        @Html.TextBoxFor(u => u.AppUser.FirstName,
+            new { @class = "form-control" })
+        @Html.ValidationMessageFor(u => u.AppUser.FirstName)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(u => u.AppUser.LastName, "Last Name")
+        @Html.TextBoxFor(u => u.AppUser.LastName,
+            new { @class = "form-control" })
+        @Html.ValidationMessageFor(u => u.AppUser.LastName)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(u => u.AppUser.Address, "Address")
+        @Html.TextBoxFor(u => u.AppUser.Address,
+            new { @class = "form-control" })
+        @Html.ValidationMessageFor(u => u.AppUser.Address)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(u => u.AppUser.ContactNumber, "Contact Number")
+        @Html.TextBoxFor(u => u.AppUser.ContactNumber,
+            new { @class = "form-control" })
+        @Html.ValidationMessageFor(u => u.AppUser.ContactNumber)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(u => u.AppUser.EmailAddress, "Email Address")
+        @Html.TextBoxFor(u => u.AppUser.EmailAddress,
+            new { @class = "form-control" })
+        @Html.ValidationMessageFor(u => u.AppUser.EmailAddress)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(u => u.AppUser.Password, "Password")
+        @Html.PasswordFor(u => u.AppUser.Password,
+            new { @class = "form-control" })
+        @Html.ValidationMessageFor(u => u.AppUser.Password)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(u => u.AppUser.UserType, "Access Type")
+        @Html.DropDownListFor(u => u.AppUser.UserType,
+            new SelectList(Model.AppRoles, "Id", "Name"),
+            "-----",
+            new { @class = "form-control" })
+    </div>
+
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-primary">
+        Save
+    </button>
+}
+
+@section Scripts {
+    <script src="~/lib/jquery/jquery.validate.js"></script>
+    <script src="~/lib/jquery/jquery.validate.unobtrusive.js"></script>
+}

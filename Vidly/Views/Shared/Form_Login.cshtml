@@ -3,6 +3,13 @@
 @*<h2>@ViewBag.Title</h2>*@
 <hr />
 
+@if(ViewData.ModelState[""] != null && ViewData.ModelState[""].Errors.Count > 0)
+{
+    <div class="alert alert-danger">
+        <b>NOTE:</b>&nbsp;@Html.ValidationSummary(true)
+    </div>
+}
+
 @using (Html.BeginForm("Login", "Account"))
 {
     @Html.HiddenFor(l => l.ReturnUrl)
