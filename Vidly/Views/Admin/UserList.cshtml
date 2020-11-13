@@ -1,0 +1,81 @@
+﻿@model Form_User_ViewModel
+
+<h2>List of Users</h2>
+<hr />
+
+<table id="users" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>User Name</th>
+            <th>Access Type</th>
+            <th>Action(s)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ 
+            foreach(var u in Model.AppUsers)
+            {
+                <tr>
+                    <td>
+                        @{ 
+                            var getCompleteName = 
+                                u.FirstName + " " + 
+                                u.LastName;
+                        }
+                        @getCompleteName
+                    </td>
+                    <td>
+                        @{ 
+                            var roles = (from a in Model.AppUsers
+                                        join r in Model.AppRoles on a.UserType equals r.Id
+                                        where a.Id == u.Id
+                                        select new { UserType = r.Name }).ToList();
+
+                            var getRoleName = "";
+                            foreach(var r in roles)
+                            {
+                                getRoleName = r.UserType;
+                            }
+                        }
+                        @getRoleName
+                    </td>
+                    <td>
+                        @*@Html.ActionLink("Edit", "DeleteUser", "Admin",
+                            new { Id = u.Id },
+                            new { @class = "btn btn-outline-success" })*@
+                        <button class="btn btn-outline-danger js-delete"
+                                data-user-id="@u.Id">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            var table = $("#users").DataTable();
+
+            $("#users").on("click", ".js-delete", function () {
+                var button = $(this);
+
+                bootbox.confirm("Are you sure to delete this user?", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/API/Admin/" + button.attr("data-user-id"),
+                            method: "DELETE",
+                            success: function () {
+                                //button.parents("tr").remove();
+                                table.row(button.parents("tr")).remove().draw();
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+}

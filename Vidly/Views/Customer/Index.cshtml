@@ -1,4 +1,4 @@
-﻿@model Details_ViewModel
+﻿@*@model Details_ViewModel*@
 
 <h2>List of Customers</h2>
 <hr />
@@ -96,7 +96,7 @@ else
                             method: "DELETE",
                             success: function () {
                                 button.parents("tr").remove();
-                                //table.row(button.parents("tr")).remove().draw();
+                                table.row(button.parents("tr")).remove().draw();
                             }
                         });
                     }
