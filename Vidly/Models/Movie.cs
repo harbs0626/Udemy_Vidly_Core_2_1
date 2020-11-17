@@ -18,6 +18,8 @@ namespace Vidly.Models
 
         public int? NumberInStock { get; set; }
 
+        public int? NumberOfAvailability { get; set; }
+
         public Genre Genre { get; set; }
 
         public int? GenreId { get; set; }

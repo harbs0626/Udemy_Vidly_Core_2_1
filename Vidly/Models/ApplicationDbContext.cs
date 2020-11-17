@@ -20,5 +20,7 @@ namespace Vidly.Models
 
         public DbSet<Genre> Genres { get; set; }
 
+        public DbSet<Rental> Rentals { get; set; }
+
     }
 }

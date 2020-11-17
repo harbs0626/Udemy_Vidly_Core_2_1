@@ -44,7 +44,7 @@
                             new { Id = u.Id },
                             new { @class = "btn btn-outline-success" })*@
                         <button class="btn btn-outline-danger js-delete"
-                                data-user-id="@u.Id">
+                                data-user-id="@u.Id" data-user-name="@getCompleteName">
                             Delete
                         </button>
                     </td>
@@ -71,6 +71,25 @@
                             success: function () {
                                 //button.parents("tr").remove();
                                 table.row(button.parents("tr")).remove().draw();
+
+                                toastr.options = {
+                                    "closeButton": true,
+                                    "newestOnTop": false,
+                                    "positionClass": "toast-top-right",
+                                    "preventDuplicates": true,
+                                    "onclick": null,
+                                    "showDuration": "300",
+                                    "hideDuration": "1000",
+                                    "timeOut": "5000",
+                                    "extendedTimeOut": "1000",
+                                    "showEasing": "swing",
+                                    "hideEasing": "linear",
+                                    "showMethod": "fadeIn",
+                                    "hideMethod": "fadeOut"
+                                }
+
+                                var getCompleteName = button.attr("data-user-name");
+                                toastr.success("Successfully deleted User " + getCompleteName + ".");
                             }
                         });
                     }

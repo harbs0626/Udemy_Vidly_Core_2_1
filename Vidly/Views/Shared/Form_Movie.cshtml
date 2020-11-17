@@ -14,9 +14,11 @@
     <div class="form-group">
         @Html.LabelFor(m => m.Movie.ReleaseDate, "Release Date")
         @Html.TextBoxFor(m => m.Movie.ReleaseDate, "{0:yyyy-MM-dd}",
-            new {
+            new
+                 {
                 @class = "form-control",
-                @type = "date" })
+                @type = "date"
+                 })
         @Html.ValidationMessageFor(m => m.Movie.ReleaseDate)
     </div>
     <div class="form-group">
@@ -34,6 +36,14 @@
                 @class = "form-control",
                 @placeholder = "0" })
         @Html.ValidationMessageFor(m => m.Movie.NumberInStock)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Movie.NumberOfAvailability, "Number of Availability")
+        @Html.TextBoxFor(m => m.Movie.NumberOfAvailability,
+            new {
+                @class = "form-control",
+                @placeholder = "0" })
+        @Html.ValidationMessageFor(m => m.Movie.NumberOfAvailability)
     </div>
 
     <input type="hidden" asp-for="@Model.Movie.Id"
